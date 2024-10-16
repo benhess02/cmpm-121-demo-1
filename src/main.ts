@@ -2,7 +2,7 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-let count : number = 0;
+let count: number = 0;
 
 const gameName = "My supercalifragilisticexpialidocious game";
 document.title = gameName;
@@ -18,7 +18,12 @@ app.append(counterLabel);
 const btn = document.createElement("button");
 btn.innerHTML = "🎆";
 btn.addEventListener("click", () => {
-    count++;
-    counterLabel.innerHTML = `${count} Fireworks`;
+  count++;
+  counterLabel.innerHTML = `${count} Fireworks`;
 });
 app.append(btn);
+
+setInterval(() => {
+    count++;
+    counterLabel.innerHTML = `${count} Fireworks`;
+}, 1000);
