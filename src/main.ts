@@ -3,6 +3,7 @@ import "./style.css";
 const app: HTMLDivElement = document.querySelector("#app")!;
 
 let count: number = 0;
+let time: number = 0;
 
 const gameName = "My supercalifragilisticexpialidocious game";
 document.title = gameName;
@@ -11,19 +12,30 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
+function update() {
+    counterLabel.innerHTML = `${count.toFixed(3)} Fireworks`;
+}
+
 const counterLabel = document.createElement("div");
-counterLabel.innerHTML = "0 Fireworks";
 app.append(counterLabel);
+update();
 
 const btn = document.createElement("button");
 btn.innerHTML = "🎆";
 btn.addEventListener("click", () => {
   count++;
-  counterLabel.innerHTML = `${count} Fireworks`;
+  update();
 });
 app.append(btn);
 
-setInterval(() => {
-    count++;
-    counterLabel.innerHTML = `${count} Fireworks`;
-}, 1000);
+function tick() {
+    requestAnimationFrame(() => tick());
+    const newTime = performance.now();
+    const dt = newTime - time;
+    time = newTime;
+
+    count += dt / 1000;
+    update();
+}
+
+tick();
