@@ -9,63 +9,73 @@ const header = document.createElement("h1");
 header.innerHTML = gameName;
 app.append(header);
 
-let count: number = 0;
-function update() {
-  counterLabel.innerHTML = `${count.toFixed(2)} Fireworks`;
-  growthRateLabel.innerHTML = `${calculateGrowthRate().toFixed(2)} fireworks/sec`;
-  upgradesLabel.innerHTML = `Upgrades: ${upgradeACount} A, ${upgradeBCount} B, ${upgradeCCount} C`;
+interface Item {
+  name: string,
+  cost: number,
+  rate: number
+};
 
-  upgradeABtn.disabled = count < upgradeAPrice;
-  upgradeBBtn.disabled = count < upgradeBPrice;
-  upgradeCBtn.disabled = count < upgradeCPrice;
+const availableItems : Item[] = [
+  { name: "Firework Launcher", cost: 10, rate: 0.1 },
+  { name: "Firework Cannon", cost: 100, rate: 2 },
+  { name: "High Speed Firework Cannon", cost: 1000, rate: 50 }
+];
 
-  upgradeABtn.innerHTML = `Perchase Firework Launcher (${upgradeAPrice.toFixed(2)} units)`;
-  upgradeBBtn.innerHTML = `Perchase Firework Cannon (${upgradeBPrice.toFixed(2)} units)`;
-  upgradeCBtn.innerHTML = `Perchase High Speed Firework Cannon (${upgradeCPrice.toFixed(2)} units)`;
+interface ItemState {
+  item: Item,
+  count: number,
+  currentCost: number,
+  button: HTMLButtonElement,
+  label: HTMLDivElement
 }
 
-let upgradeACount: number = 0;
-let upgradeAPrice: number = 10;
+const itemStates : ItemState[] = [];
 
-let upgradeBCount: number = 0;
-let upgradeBPrice: number = 100;
+let count: number = 0;
+let growthRate: number = 0;
+function update() {
+  counterLabel.innerHTML = `${count.toFixed(2)} Fireworks`;
+  growthRateLabel.innerHTML = `Growth rate: ${growthRate.toFixed(2)} fireworks/sec`;
+  for(let i = 0; i < itemStates.length; i++) {
+    itemStates[i].label.innerHTML = `${itemStates[i].item.name}: ${itemStates[i].count}`;
+    itemStates[i].button.innerHTML = `Perchase ${itemStates[i].item.name} (${itemStates[i].currentCost} fireworks)`;
+    itemStates[i].button.disabled = count < itemStates[i].currentCost;
+  }
+}
 
-let upgradeCCount: number = 0;
-let upgradeCPrice: number = 1000;
+for(let i = 0; i < availableItems.length; i++) {
+  const btn = document.createElement("button");
+  const label = document.createElement("div");
+  const state : ItemState = {
+    item: availableItems[i],
+    currentCost: availableItems[i].cost,
+    count: 0,
+    button: btn,
+    label: label
+  };
+  itemStates.push(state);
+  btn.addEventListener("click", () => {
+    count -= state.currentCost;
+    state.currentCost *= 1.15;
+    state.count += 1;
+    growthRate += state.item.rate;
+    update();
+  });
+}
 
-const upgradeABtn = document.createElement("button");
-upgradeABtn.addEventListener("click", () => {
-  count -= upgradeAPrice;
-  upgradeAPrice *= 1.15;
-  upgradeACount += 1;
-  update();
-});
-app.append(upgradeABtn);
-
-const upgradeBBtn = document.createElement("button");
-upgradeBBtn.addEventListener("click", () => {
-  count -= upgradeBPrice;
-  upgradeBPrice *= 1.15;
-  upgradeBCount += 1;
-  update();
-});
-app.append(upgradeBBtn);
-
-const upgradeCBtn = document.createElement("button");
-upgradeCBtn.addEventListener("click", () => {
-  count -= upgradeCPrice;
-  upgradeCPrice *= 1.15;
-  upgradeCCount += 1;
-  update();
-});
-app.append(upgradeCBtn);
+for(let i = 0; i < itemStates.length; i++) {
+  app.append(itemStates[i].button);
+}
 
 const counterLabel = document.createElement("div");
 app.append(counterLabel);
 const growthRateLabel = document.createElement("div");
 app.append(growthRateLabel);
-const upgradesLabel = document.createElement("div");
-app.append(upgradesLabel);
+
+for(let i = 0; i < itemStates.length; i++) {
+  app.append(itemStates[i].label);
+}
+
 update();
 
 const btn = document.createElement("button");
@@ -76,10 +86,6 @@ btn.addEventListener("click", () => {
 });
 app.append(btn);
 
-function calculateGrowthRate(): number {
-  return upgradeACount * 0.1 + upgradeBCount * 2 + upgradeCCount * 50;
-}
-
 let time: number = 0;
 function tick() {
   requestAnimationFrame(() => tick());
@@ -87,7 +93,7 @@ function tick() {
   const dt = newTime - time;
   time = newTime;
 
-  count += (dt / 1000) * calculateGrowthRate();
+  count += (dt / 1000) * growthRate;
   update();
 }
 
