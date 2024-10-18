@@ -19,9 +19,9 @@ function update() {
   upgradeBBtn.disabled = count < upgradeBPrice;
   upgradeCBtn.disabled = count < upgradeCPrice;
 
-  upgradeABtn.innerHTML = `Perchase Upgrade A (${upgradeAPrice.toFixed(2)} units)`;
-  upgradeBBtn.innerHTML = `Perchase Upgrade B (${upgradeBPrice.toFixed(2)} units)`;
-  upgradeCBtn.innerHTML = `Perchase Upgrade C (${upgradeCPrice.toFixed(2)} units)`;
+  upgradeABtn.innerHTML = `Perchase Firework Launcher (${upgradeAPrice.toFixed(2)} units)`;
+  upgradeBBtn.innerHTML = `Perchase Firework Cannon (${upgradeBPrice.toFixed(2)} units)`;
+  upgradeCBtn.innerHTML = `Perchase High Speed Firework Cannon (${upgradeCPrice.toFixed(2)} units)`;
 }
 
 let upgradeACount: number = 0;
@@ -34,7 +34,6 @@ let upgradeCCount: number = 0;
 let upgradeCPrice: number = 1000;
 
 const upgradeABtn = document.createElement("button");
-upgradeABtn.innerHTML = "Perchase Upgrade A";
 upgradeABtn.addEventListener("click", () => {
   count -= upgradeAPrice;
   upgradeAPrice *= 1.15;
@@ -44,7 +43,6 @@ upgradeABtn.addEventListener("click", () => {
 app.append(upgradeABtn);
 
 const upgradeBBtn = document.createElement("button");
-upgradeBBtn.innerHTML = "Perchase Upgrade B";
 upgradeBBtn.addEventListener("click", () => {
   count -= upgradeBPrice;
   upgradeBPrice *= 1.15;
@@ -54,7 +52,6 @@ upgradeBBtn.addEventListener("click", () => {
 app.append(upgradeBBtn);
 
 const upgradeCBtn = document.createElement("button");
-upgradeCBtn.innerHTML = "Perchase Upgrade C";
 upgradeCBtn.addEventListener("click", () => {
   count -= upgradeCPrice;
   upgradeCPrice *= 1.15;
@@ -72,7 +69,7 @@ app.append(upgradesLabel);
 update();
 
 const btn = document.createElement("button");
-btn.innerHTML = "🎆";
+btn.innerHTML = "🎆 Launch Firework";
 btn.addEventListener("click", () => {
   count++;
   update();
