@@ -2,7 +2,7 @@ import "./style.css";
 
 const app: HTMLDivElement = document.querySelector("#app")!;
 
-const gameName = "My supercalifragilisticexpialidocious game";
+const gameName = "My Firework Game";
 document.title = gameName;
 
 const header = document.createElement("h1");
@@ -17,11 +17,36 @@ interface Item {
 }
 
 const availableItems: Item[] = [
-  { name: "Firework Launcher", cost: 10, rate: 0.1, description: "A basic firework launcher. Don't aim at face" },
-  { name: "Firework Cannon", cost: 100, rate: 2, description: "A bigger launcher. Bigger boom... more boom" },
-  { name: "Quad Firework Cannon", cost: 300, rate: 8, description: "Just four cannons but you bought in bulk so it's cheaper" },
-  { name: "High Speed Firework Cannon", cost: 1000, rate: 50, description: "Rapid auto-reloading insanity" },
-  { name: "San Diego Firework Display", cost: 100000, rate: 2000, description: "They had a little oopsie in 2012, look it up" }
+  {
+    name: "Firework Launcher",
+    cost: 10,
+    rate: 0.1,
+    description: "A basic firework launcher. Don't aim at face",
+  },
+  {
+    name: "Firework Cannon",
+    cost: 100,
+    rate: 2,
+    description: "A bigger launcher. Bigger boom... more boom",
+  },
+  {
+    name: "Quad Firework Cannon",
+    cost: 300,
+    rate: 8,
+    description: "Just four cannons but you bought in bulk so it's cheaper",
+  },
+  {
+    name: "High Speed Firework Cannon",
+    cost: 1000,
+    rate: 50,
+    description: "Rapid auto-reloading insanity",
+  },
+  {
+    name: "San Diego Firework Display",
+    cost: 100000,
+    rate: 2000,
+    description: "They had a little oopsie in 2012, look it up",
+  },
 ];
 
 interface ItemState {
