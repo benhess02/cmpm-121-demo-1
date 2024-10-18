@@ -11,22 +11,33 @@ app.append(header);
 
 let count: number = 0;
 function update() {
-  counterLabel.innerHTML = `${count.toFixed(3)} Fireworks`;
-  growthRateLabel.innerHTML = `${calculateGrowthRate().toFixed(2)} cookies/sec`;
+  counterLabel.innerHTML = `${count.toFixed(2)} Fireworks`;
+  growthRateLabel.innerHTML = `${calculateGrowthRate().toFixed(2)} fireworks/sec`;
   upgradesLabel.innerHTML = `Upgrades: ${upgradeACount} A, ${upgradeBCount} B, ${upgradeCCount} C`;
-  upgradeABtn.disabled = count < 10;
-  upgradeBBtn.disabled = count < 100;
-  upgradeCBtn.disabled = count < 1000;
+
+  upgradeABtn.disabled = count < upgradeAPrice;
+  upgradeBBtn.disabled = count < upgradeBPrice;
+  upgradeCBtn.disabled = count < upgradeCPrice;
+
+  upgradeABtn.innerHTML = `Perchase Upgrade A (${upgradeAPrice.toFixed(2)} units)`;
+  upgradeBBtn.innerHTML = `Perchase Upgrade B (${upgradeBPrice.toFixed(2)} units)`;
+  upgradeCBtn.innerHTML = `Perchase Upgrade C (${upgradeCPrice.toFixed(2)} units)`;
 }
 
-let upgradeACount : number = 0;
-let upgradeBCount : number = 0;
-let upgradeCCount : number = 0;
+let upgradeACount: number = 0;
+let upgradeAPrice: number = 10;
+
+let upgradeBCount: number = 0;
+let upgradeBPrice: number = 100;
+
+let upgradeCCount: number = 0;
+let upgradeCPrice: number = 1000;
 
 const upgradeABtn = document.createElement("button");
 upgradeABtn.innerHTML = "Perchase Upgrade A";
 upgradeABtn.addEventListener("click", () => {
-  count -= 10;
+  count -= upgradeAPrice;
+  upgradeAPrice *= 1.15;
   upgradeACount += 1;
   update();
 });
@@ -35,7 +46,8 @@ app.append(upgradeABtn);
 const upgradeBBtn = document.createElement("button");
 upgradeBBtn.innerHTML = "Perchase Upgrade B";
 upgradeBBtn.addEventListener("click", () => {
-  count -= 100;
+  count -= upgradeBPrice;
+  upgradeBPrice *= 1.15;
   upgradeBCount += 1;
   update();
 });
@@ -44,7 +56,8 @@ app.append(upgradeBBtn);
 const upgradeCBtn = document.createElement("button");
 upgradeCBtn.innerHTML = "Perchase Upgrade C";
 upgradeCBtn.addEventListener("click", () => {
-  count -= 1000;
+  count -= upgradeCPrice;
+  upgradeCPrice *= 1.15;
   upgradeCCount += 1;
   update();
 });
@@ -66,7 +79,7 @@ btn.addEventListener("click", () => {
 });
 app.append(btn);
 
-function calculateGrowthRate() : number {
+function calculateGrowthRate(): number {
   return upgradeACount * 0.1 + upgradeBCount * 2 + upgradeCCount * 50;
 }
 
